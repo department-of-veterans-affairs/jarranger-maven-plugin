@@ -298,11 +298,11 @@
               <sourceDirectories>
                 <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
               </sourceDirectories>
-              <!-- We use google's rules, but there are few minor tweaks. - We don't 
-								need indentation checks since the formatter that just fired will have sorted 
-								that out. Some times the checkstyle rules and and the formatter disagree. 
-								We believe the formatter. - We don't care about using `p` tags in our comments. 
-								It's just clutter. -->
+              <!-- We use google's rules, but there are few minor tweaks. - We don't
+                need indentation checks since the formatter that just fired will have sorted
+                that out. Some times the checkstyle rules and and the formatter disagree.
+                We believe the formatter. - We don't care about using `p` tags in our comments.
+                It's just clutter. -->
               <violationIgnore>Indentation,JavadocParagraph</violationIgnore>
             </configuration>
             <executions>
@@ -338,8 +338,8 @@
                 <phase>verify</phase>
                 <configuration>
                   <scripts>
-                    <!-- This blob of weirdness looks for the JaCoCo report and prints 
-											a small summary of line coverage. -->
+                    <!-- This blob of weirdness looks for the JaCoCo report and prints
+                      a small summary of line coverage. -->
                     <!-- @formatter:off -->
                     <!--suppress MavenModelInspection -->
                     <script><![CDATA[
