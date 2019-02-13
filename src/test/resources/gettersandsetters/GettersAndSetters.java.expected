@@ -1,0 +1,141 @@
+public class GettersAndSetters {
+    Boolean success;
+    boolean satisfied;
+    String _someString;
+    int fNum;
+    double number;
+
+    public Object get() {
+        return null;
+    }
+
+    public String get$generated() {
+        return "";
+    }
+
+    public void set$generated(String $generated) {
+    }
+
+    public Void getDerp() {
+    }
+
+    public String getHasParam(String p) {
+    }
+
+    public String getMultipleParams() {
+    }
+
+    public String getMultipleSetters() {
+    }
+
+    public void setMultipleSetters(Double aDouble) {
+    }
+
+    public void setMultipleSetters(char aChar) {
+    }
+
+    public double getNumber() {
+        return number;
+    }
+
+    public void setNumber(Double num) {
+        // lies
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public void getTheVoid() {
+    }
+
+    public String getThing() {
+    }
+
+    public void setThing(String p1) {
+    }
+
+    public String getTypeDoesntMatch() {
+    }
+
+    public void setTypeDoesntMatch(Double notString) {
+    }
+
+    public Void getVoidObj() {
+    }
+
+    public void setVoidObj(Object p) {
+    }
+
+    public float getWithNoSet() {
+        return 0;
+    }
+
+    public int get_101dalmatians() {
+    }
+
+    public void set_101dalmatians(int _101dalmatians) {
+    }
+
+    public String get_someString() {
+        return _someString;
+    }
+
+    public void set_someString(String abc) {
+        _someString = abc;
+    }
+
+    public int getfNum() {
+        return 42;
+    }
+
+    public void setfNum(int $num) {
+        this.fNum = $num;
+    }
+
+    public double getnumber() {
+        return 0;
+    }
+
+    public String isNotBool() {
+    }
+
+    public boolean isSatisfied() {
+        return satisfied;
+    }
+
+    public void setSatisfied(boolean satisfied) {
+        this.satisfied = satisfied;
+    }
+
+    public boolean isThing() {
+    }
+
+    public void set(Object obj) {
+    }
+
+    public Void setDerp(Object p) {
+    }
+
+    public String setHasParam(String p) {
+    }
+
+    public void setMultipleParams(String p1, String p2) {
+    }
+
+    public void setNotBool(String p) {
+    }
+
+    public void setTheVoid(Object p) {
+    }
+
+    public void setWithNoGet(float num) {
+    }
+
+    public void setnumber(double num) {
+    }
+}

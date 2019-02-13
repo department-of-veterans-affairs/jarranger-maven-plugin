@@ -1,0 +1,34 @@
+@SuppressWarnings("all")
+public final class Overloaded {
+    public String getClientInfo(Double num) {
+        return null;
+    }
+
+    public Object getClientInfo() {
+        return null;
+    }
+
+    public Object getClientInfo(Object obj) {
+        return null;
+    }
+
+    public String getClientInfo(String name) {
+        return null;
+    }
+
+    public void setClientInfo(Object p) {
+    }
+
+    public void setClientInfo(Double num) {
+    }
+
+    public void setClientInfo(String key, String value) {
+    }
+    
+    public int getHodlability() {
+        return 0;
+    }
+
+    public void setCatalog(String catalog) {
+    }
+}

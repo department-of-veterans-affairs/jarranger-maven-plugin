@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>gov.va.jarranger</groupId>
+  <artifactId>jarranger-maven-plugin</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>maven-plugin</packaging>
+  <properties>
+    <assertj.version>3.11.1</assertj.version>
+    <checkstyle.version>8.12</checkstyle.version>
+    <findsecbugs-plugin.version>1.8.0</findsecbugs-plugin.version>
+    <fmt-maven-plugin.version>2.3.0</fmt-maven-plugin.version>
+    <formatter-maven-plugin.version>2.7.5</formatter-maven-plugin.version>
+    <gmavenplus-plugin.version>1.5</gmavenplus-plugin.version>
+    <google-java-format.version>1.5</google-java-format.version>
+    <groovy.version>2.4.12</groovy.version>
+    <guava.version>27.0.1-jre</guava.version>
+    <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+    <jacoco.coverage>0.95</jacoco.coverage>
+    <java.version>1.8</java.version>
+    <javaparser.version>3.8.0</javaparser.version>
+    <junit.version>4.12</junit.version>
+    <lombok.version>1.18.2</lombok.version>
+    <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+    <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+    <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+    <maven-plugin.version>3.6.0</maven-plugin.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.version>3.5</maven.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spotbugs-maven-plugin.version>3.1.6</spotbugs-maven-plugin.version>
+    <spotbugs.excludeFilterFile>${project.basedir}/spotbugs-excludes.xml</spotbugs.excludeFilterFile>
+    <spotbugs.version>3.1.7</spotbugs.version>
+    <xml-format-maven-plugin.version>3.0.6</xml-format-maven-plugin.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.github.javaparser</groupId>
+      <artifactId>javaparser-core</artifactId>
+      <version>${javaparser.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>${maven-plugin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <version>${maven-plugin.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <profile>
+      <id>standard</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-plugin-plugin</artifactId>
+            <version>${maven-plugin.version}</version>
+            <configuration>
+              <!-- see http://jira.codehaus.org/browse/MNG-5346 -->
+              <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+            </configuration>
+            <executions>
+              <execution>
+                <id>mojo-descriptor</id>
+                <goals>
+                  <goal>descriptor</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Compiler -->
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven-compiler-plugin.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <!-- Enable warnings for compile goal. (Not testCompile.) -->
+                  <goal>compile</goal>
+                </goals>
+                <configuration>
+                  <source>${java.version}</source>
+                  <target>${java.version}</target>
+                  <showWarnings>true</showWarnings>
+                  <compilerArgs>
+                    <arg>-Xlint:all</arg>
+                    <!-- Suppress unknown annotation processing warnings. -->
+                    <arg>-Xlint:-processing</arg>
+                    <!-- Java serialization is not used. -->
+                    <arg>-Xlint:-serial</arg>
+                    <arg>-Werror</arg>
+                  </compilerArgs>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Maven Enforcer rules that apply to all projects. -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>${maven-enforcer-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>enforce-versions</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <requireMavenVersion>
+                      <version>${maven.version}</version>
+                    </requireMavenVersion>
+                    <requireJavaVersion>
+                      <version>${java.version}</version>
+                    </requireJavaVersion>
+                    <requireReleaseDeps>
+                      <onlyWhenRelease>true</onlyWhenRelease>
+                    </requireReleaseDeps>
+                  </rules>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Java formatting -->
+          <plugin>
+            <groupId>com.coveo</groupId>
+            <artifactId>fmt-maven-plugin</artifactId>
+            <version>${fmt-maven-plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.google.googlejavaformat</groupId>
+                <artifactId>google-java-format</artifactId>
+                <version>${google-java-format.version}</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>format</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- XML formatting -->
+          <plugin>
+            <groupId>au.com.acegi</groupId>
+            <artifactId>xml-format-maven-plugin</artifactId>
+            <version>${xml-format-maven-plugin.version}</version>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <lineEnding>LF</lineEnding>
+              <indentSize>2</indentSize>
+              <newlines>true</newlines>
+              <includes>
+                <include>src/**/*.xml</include>
+                <include>pom.xml</include>
+              </includes>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>xml-format</goal>
+                </goals>
+                <phase>process-sources</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- JSON formatting -->
+          <plugin>
+            <groupId>net.revelc.code.formatter</groupId>
+            <artifactId>formatter-maven-plugin</artifactId>
+            <version>${formatter-maven-plugin.version}</version>
+            <configuration>
+              <configJsonFile>${project.basedir}/formatter.json.properties</configJsonFile>
+              <encoding>UTF-8</encoding>
+              <lineEnding>LF</lineEnding>
+              <skipJavaFormatting>true</skipJavaFormatting>
+              <skipXmlFormatting>true</skipXmlFormatting>
+              <excludes>
+                <exclude>**/*.java</exclude>
+                <exclude>**/*.xml</exclude>
+              </excludes>
+              <sourceDirectory>${project.build.sourceDirectory}/..</sourceDirectory>
+              <testSourceDirectory>${project.build.testSourceDirectory}/..</testSourceDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>format</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Force unix line endings -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>fix-line-endings</id>
+                <phase>process-sources</phase>
+                <configuration>
+                  <target>
+                    <fixcrlf eof="remove" eol="lf" excludes="**/*.png,**/*.jks" includes="pom.xml,*.md,src/**" srcDir="${project.basedir}"/>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Spotbugs -->
+          <plugin>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${spotbugs-maven-plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs</artifactId>
+                <version>${spotbugs.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <plugins>
+                <plugin>
+                  <groupId>com.h3xstream.findsecbugs</groupId>
+                  <artifactId>findsecbugs-plugin</artifactId>
+                  <version>${findsecbugs-plugin.version}</version>
+                </plugin>
+              </plugins>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <effort>Max</effort>
+                  <threshold>Low</threshold>
+                  <failOnError>true</failOnError>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Checkstyle -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${maven-checkstyle-plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>${checkstyle.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <configLocation>google_checks.xml</configLocation>
+              <violationSeverity>warning</violationSeverity>
+              <failOnViolation>true</failOnViolation>
+              <maxAllowedViolations>0</maxAllowedViolations>
+              <consoleOutput>false</consoleOutput>
+              <linkXRef>false</linkXRef>
+              <sourceDirectories>
+                <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+              </sourceDirectories>
+              <!-- We use google's rules, but there are few minor tweaks. - We don't
+                need indentation checks since the formatter that just fired will have sorted
+                that out. Some times the checkstyle rules and and the formatter disagree.
+                We believe the formatter. - We don't care about using `p` tags in our comments.
+                It's just clutter. -->
+              <violationIgnore>Indentation,JavadocParagraph</violationIgnore>
+            </configuration>
+            <executions>
+              <execution>
+                <id>checkstyle</id>
+                <phase>process-sources</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Coverage -->
+          <plugin>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <version>${gmavenplus-plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <!-- any version of Groovy \>= 1.5.0 should work here -->
+                <version>${groovy.version}</version>
+                <scope>runtime</scope>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>code-coverage</id>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <phase>verify</phase>
+                <configuration>
+                  <scripts>
+                    <!-- This blob of weirdness looks for the JaCoCo report and prints
+                      a small summary of line coverage. -->
+                    <!-- @formatter:off -->
+                    <!--suppress MavenModelInspection -->
+                    <script><![CDATA[
+                  import org.fusesource.jansi.Ansi
+
+                  def coverageOf(name,counter) {
+                        def lines = counter.find { node -> node.@type == 'LINE' }
+                        def missed = lines.@missed.toInteger()
+                        def covered = lines.@covered.toInteger()
+                        def awesomeness=Math.floor(100*covered/(missed+covered))
+                        log.info(Ansi.ansi()
+                            .bold().fgMagenta().a(String.format("%3.0f%%  ", awesomeness))
+                            .reset().a(String.format("%4d %5d  ",missed,missed+covered))
+                            .bold().fgDefault().a(name)
+                            .reset().toString())
+                  }
+
+                  def report = new File(project.build.directory+'/site/jacoco/jacoco.xml')
+                  log.debug("Coverage report " + report)
+                  if (report.exists()) {
+                    def raw = ${jacoco.coverage}
+                    log.info("")
+                    log.info("Cover Miss Total  Class")
+                    def slurper = new XmlSlurper()
+                    slurper.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd",false)
+                    slurper.setFeature("http://xml.org/sax/features/namespaces", false)
+                    slurper.setFeature('http://apache.org/xml/features/disallow-doctype-decl',false)
+                    def xml = slurper.parse(report)
+                    xml.package.each { p ->
+                      p.class.each { c -> coverageOf("${c.@name}".replace('/','.'), c.counter) }
+                    }
+                    coverageOf("Total",xml.counter)
+                    def expected = ((raw.toDouble())*100).toInteger().toString()
+                    log.info(Ansi.ansi().fgBlue().a(' ' + expected + '%').reset().a(" Required").fgDefault().reset().toString())
+                    log.info("")
+                  }
+                  ]]></script>
+                    <!-- @formatter:on -->
+                  </scripts>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <rule>
+                      <element>BUNDLE</element>
+                      <limits>
+                        <limit>
+                          <counter>LINE</counter>
+                          <value>COVEREDRATIO</value>
+                          <minimum>${jacoco.coverage}</minimum>
+                        </limit>
+                      </limits>
+                    </rule>
+                  </rules>
+                </configuration>
+              </execution>
+              <execution>
+                <id>report</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <distributionManagement>
+    <repository>
+      <id>health-apis-releases</id>
+      <url>https://tools.health.dev-developer.va.gov/nexus/repository/health-apis-releases/</url>
+    </repository>
+  </distributionManagement>
+</project>

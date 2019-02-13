@@ -1,0 +1,16 @@
+@SuppressWarnings("all")
+public final class OverloadedSimple {
+    public String getClientInfo(String name) {
+        return null;
+    }
+
+    public Object getClientInfo() {
+        return null;
+    }
+
+    public void setClientInfo(Object p) {
+    }
+
+    public void setClientInfo(String key, String value) {
+    }
+}
