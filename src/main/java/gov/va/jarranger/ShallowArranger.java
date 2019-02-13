@@ -134,9 +134,8 @@ final class ShallowArranger {
       if (getter == null) {
         continue;
       }
-      // If there are multiple setters, their order in the original list will be reversed as they
-      // are
-      // inserted here. Use a reversed list to preserve the original order.
+      // Original setter order will be reversed as they are inserted here.
+      // Use a reversed list to preserve the original order.
       for (final T setter : Lists.reverse(ImmutableList.copyOf(settersEntry.getValue()))) {
         final boolean removed = nodes.remove(setter);
         checkState(removed);
@@ -222,9 +221,9 @@ final class ShallowArranger {
     return null;
   }
 
-  private static NodeList<Parameter> parameters(final Object maybeCallable) {
-    if (maybeCallable instanceof CallableDeclaration<?>) {
-      return ((CallableDeclaration<?>) maybeCallable).getParameters();
+  private static NodeList<Parameter> parameters(final Object callableMaybe) {
+    if (callableMaybe instanceof CallableDeclaration<?>) {
+      return ((CallableDeclaration<?>) callableMaybe).getParameters();
     }
     return new NodeList<>();
   }

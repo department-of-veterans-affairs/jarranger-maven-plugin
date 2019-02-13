@@ -2,7 +2,11 @@
 
 Automatic code arranger. This plugin mimics the default behavior of [IntelliJ IDEA's Java arranger](https://blog.jetbrains.com/idea/2012/10/arrange-your-code-automatically-with-intellij-idea-12/), with **order by name** enabled for **methods** and **static methods**.
 
-Note that formatting **is not preserved**. You are advised to use this plugin in conjunction with an automatic code formatter, such as [fmt-maven-plugin](https://github.com/coveo/fmt-maven-plugin); formatting changes will then be limited to addition (or removal) of blank lines.
+Note that formatting **is not preserved**. You are advised to use this plugin in conjunction with an automatic code formatter, such as [fmt-maven-plugin](https://github.com/coveo/fmt-maven-plugin). Formatting differences will then be limited to addition or removal of blank lines.
+
+If you use this plugin in conjunction with IntelliJ IDEA, adjust this setting to minimize formatting conflicts:
+
+`Settings / Code Style / Java / Blank Lines / Minimum Blank Lines / Around field = 1`
 
 ## Usage
 
