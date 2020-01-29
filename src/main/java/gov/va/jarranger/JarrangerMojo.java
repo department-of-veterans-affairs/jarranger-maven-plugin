@@ -16,17 +16,15 @@ final class JarrangerMojo extends AbstractMojo {
   private String packaging;
 
   @Parameter(
-    defaultValue = "${project.build.sourceDirectory}",
-    property = "sourceDirectory",
-    required = true
-  )
+      defaultValue = "${project.build.sourceDirectory}",
+      property = "sourceDirectory",
+      required = true)
   private File sourceDirectory;
 
   @Parameter(
-    defaultValue = "${project.build.testSourceDirectory}",
-    property = "testSourceDirectory",
-    required = true
-  )
+      defaultValue = "${project.build.testSourceDirectory}",
+      property = "testSourceDirectory",
+      required = true)
   private File testSourceDirectory;
 
   @Parameter(defaultValue = "false", property = "jarranger.skip")
