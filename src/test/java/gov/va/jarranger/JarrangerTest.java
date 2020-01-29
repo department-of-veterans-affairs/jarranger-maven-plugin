@@ -1,7 +1,6 @@
 package gov.va.jarranger;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.utils.CodeGenerationUtils;
 import com.github.javaparser.utils.SourceRoot;
@@ -12,7 +11,6 @@ import java.nio.file.StandardCopyOption;
 import lombok.SneakyThrows;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -47,6 +45,8 @@ public final class JarrangerTest {
             .toFile()
             .renameTo(testResourcesPath.resolve(targetFileName + ".java").toFile());
     assertThat(renamed).isTrue();
+    testResourcesPath = null;
+    targetFileName = null;
   }
 
   private void _parseAndCompare() {
@@ -195,19 +195,5 @@ public final class JarrangerTest {
             .arrange();
     assertThat(result.getTotal()).isEqualTo(0);
     assertThat(result.getArranged()).isEqualTo(0);
-  }
-
-  @Test
-  @Ignore
-  public void yoDawg() {
-    // Run the arranger on its own source.
-    JarrangerMojo.builder()
-        .log(new SystemStreamLog())
-        .sourceDirectory(
-            CodeGenerationUtils.mavenModuleRoot(getClass()).resolve("src/main/java").toFile())
-        .testSourceDirectory(
-            CodeGenerationUtils.mavenModuleRoot(getClass()).resolve("src/test/java").toFile())
-        .build()
-        .execute();
   }
 }
