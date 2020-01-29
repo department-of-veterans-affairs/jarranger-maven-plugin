@@ -1,7 +1,6 @@
 package gov.va.jarranger;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.utils.CodeGenerationUtils;
 import com.github.javaparser.utils.SourceRoot;

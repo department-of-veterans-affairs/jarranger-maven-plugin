@@ -9,23 +9,14 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.printer.PrettyPrinter;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import com.github.javaparser.utils.SourceRoot;
-import com.google.common.collect.Iterables;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.Value;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
 @Builder
@@ -66,30 +57,6 @@ final class Jarranger {
     return printerConfig;
   }
 
-  @SneakyThrows
-  private static void removeBlankLineAfterOpenBrace(final Path arrangedPath) {
-    final List<String> lines = Files.readAllLines(arrangedPath, StandardCharsets.UTF_8);
-    final List<String> filteredLines = new ArrayList<>(lines.size());
-    boolean filtered = false;
-    for (String line : lines) {
-      if (StringUtils.isBlank(line)
-          && !filteredLines.isEmpty()
-          && Iterables.getLast(filteredLines).trim().endsWith("{")) {
-        filtered = true;
-        continue;
-      }
-      filteredLines.add(line);
-    }
-    if (!filtered) {
-      return;
-    }
-    Files.writeString(
-        arrangedPath,
-        filteredLines.stream().collect(Collectors.joining("\n")),
-        StandardCharsets.UTF_8,
-        StandardOpenOption.TRUNCATE_EXISTING);
-  }
-
   /**
    * Arrange each Java file in the given source directory. This directory corresponds to the root of
    * the package structure, e.g. proj/src/main/java or proj/src/test/java.
@@ -103,7 +70,7 @@ final class Jarranger {
     sourceRoot.setPrinter(new PrettyPrinter(printerConfig())::print);
 
     final AtomicInteger totalCount = new AtomicInteger();
-    final List<Path> arrangedPaths = new CopyOnWriteArrayList<>();
+    final AtomicInteger arrangedCount = new AtomicInteger();
     sourceRoot.parseParallelized(
         (localPath, absolutePath, parseResult) -> {
           log.debug("Processing " + absolutePath);
@@ -127,17 +94,13 @@ final class Jarranger {
           }
 
           log.debug("Arranged " + absolutePath);
-          arrangedPaths.add(absolutePath);
+          arrangedCount.incrementAndGet();
           return SourceRoot.Callback.Result.SAVE;
         });
 
-    for (Path arrangedPath : arrangedPaths) {
-      removeBlankLineAfterOpenBrace(arrangedPath);
-    }
-
     return ArrangementResult.builder()
         .total(totalCount.get())
-        .arranged(arrangedPaths.size())
+        .arranged(arrangedCount.get())
         .build();
   }
 
