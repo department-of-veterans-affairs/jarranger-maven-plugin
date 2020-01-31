@@ -7,7 +7,7 @@
   <packaging>maven-plugin</packaging>
   <properties>
     <assertj.version>3.15.0</assertj.version>
-    <checkstyle.version>8.28</checkstyle.version>
+    <checkstyle.version>8.29</checkstyle.version>
     <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
     <fmt-maven-plugin.version>2.9</fmt-maven-plugin.version>
     <formatter-maven-plugin.version>2.11.0</formatter-maven-plugin.version>
