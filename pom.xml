@@ -117,7 +117,7 @@
                   <showWarnings>true</showWarnings>
                   <compilerArgs>
                     <arg>-XDcompilePolicy=simple</arg>
-                    <arg>-Xplugin:ErrorProne -XepDisableWarningsInGeneratedCode</arg>
+                    <arg>-Xplugin:ErrorProne</arg>
                     <arg>-Xlint:all</arg>
                     <arg>-Xlint:-processing</arg>
                     <arg>-Werror</arg>
