@@ -8,6 +8,7 @@
   <properties>
     <assertj.version>3.15.0</assertj.version>
     <checkstyle.version>8.29</checkstyle.version>
+    <error-prone.version>2.3.4</error-prone.version>
     <findsecbugs-plugin.version>1.10.1</findsecbugs-plugin.version>
     <fmt-maven-plugin.version>2.9</fmt-maven-plugin.version>
     <formatter-maven-plugin.version>2.11.0</formatter-maven-plugin.version>
@@ -108,7 +109,6 @@
             <executions>
               <execution>
                 <goals>
-                  <!-- Enable warnings for compile goal. (Not testCompile.) -->
                   <goal>compile</goal>
                 </goals>
                 <configuration>
@@ -116,13 +116,24 @@
                   <target>${java.version}</target>
                   <showWarnings>true</showWarnings>
                   <compilerArgs>
+                    <arg>-XDcompilePolicy=simple</arg>
+                    <arg>-Xplugin:ErrorProne</arg>
                     <arg>-Xlint:all</arg>
-                    <!-- Suppress unknown annotation processing warnings. -->
                     <arg>-Xlint:-processing</arg>
-                    <!-- Java serialization is not used. -->
-                    <arg>-Xlint:-serial</arg>
                     <arg>-Werror</arg>
                   </compilerArgs>
+                  <annotationProcessorPaths>
+                    <path>
+                      <groupId>org.projectlombok</groupId>
+                      <artifactId>lombok</artifactId>
+                      <version>${lombok.version}</version>
+                    </path>
+                    <path>
+                      <groupId>com.google.errorprone</groupId>
+                      <artifactId>error_prone_core</artifactId>
+                      <version>${error-prone.version}</version>
+                    </path>
+                  </annotationProcessorPaths>
                 </configuration>
               </execution>
             </executions>
