@@ -10,7 +10,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 @NoArgsConstructor
-@Mojo(name = "arrange")
+@Mojo(name = "arrange", threadSafe = true)
 final class JarrangerMojo extends AbstractMojo {
   @Parameter(defaultValue = "${project.packaging}", required = true)
   private String packaging;
