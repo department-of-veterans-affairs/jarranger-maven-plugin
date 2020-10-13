@@ -20,7 +20,7 @@
     <jacoco.coverage>0.95</jacoco.coverage>
     <java.version>12</java.version>
     <javaparser.version>3.15.10</javaparser.version>
-    <junit.version>4.13</junit.version>
+    <junit.version>4.13.1</junit.version>
     <lombok.version>1.18.10</lombok.version>
     <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
