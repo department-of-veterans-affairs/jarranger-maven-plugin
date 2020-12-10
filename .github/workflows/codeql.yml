@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: joschi/setup-jdk@v2
       with:
-        java-version: '14'
+        java-version: '12'
 
     - uses: actions/cache@v2
       with:
