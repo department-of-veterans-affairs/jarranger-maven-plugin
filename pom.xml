@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>gov.va.jarranger</groupId>
   <artifactId>jarranger-maven-plugin</artifactId>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>1.0.7</version>
   <packaging>maven-plugin</packaging>
   <properties>
     <assertj.version>3.15.0</assertj.version>
