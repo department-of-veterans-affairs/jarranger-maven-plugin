@@ -15,7 +15,7 @@
     <gmavenplus-plugin.version>1.8.1</gmavenplus-plugin.version>
     <google-java-format.version>1.7</google-java-format.version>
     <groovy.version>2.5.9</groovy.version>
-    <guava.version>28.2-jre</guava.version>
+    <guava.version>29.0-jre</guava.version>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <jacoco.coverage>0.95</jacoco.coverage>
     <java.version>12</java.version>
