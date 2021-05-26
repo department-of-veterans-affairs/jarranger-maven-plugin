@@ -11,8 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import lombok.SneakyThrows;
 import org.apache.maven.plugin.logging.SystemStreamLog;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Many of these tests use pairs of files in src/test/resources: a *.java file and a *.expected.java
@@ -35,7 +35,7 @@ public final class JarrangerTest {
     assertThat(testResourcesPath.resolve(targetFileName + ".bak").toFile().exists()).isTrue();
   }
 
-  @After
+  @AfterEach
   public void _cleanUp() {
     assertThat(testResourcesPath.resolve(targetFileName + ".bak").toFile().exists()).isTrue();
     final boolean deleted = testResourcesPath.resolve(targetFileName + ".java").toFile().delete();
