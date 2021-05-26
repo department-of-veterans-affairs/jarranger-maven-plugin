@@ -1,3 +1,3 @@
 standardMavenPipeline {
-  healthApisMavenImage='vasdvp/health-apis-maven:3.8-jdk-16'
+  healthApisMavenImage='vasdvp/health-apis-dev-tools:mvn-3.8-jdk-16'
 }
